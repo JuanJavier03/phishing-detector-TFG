@@ -1,20 +1,49 @@
 # Phishing Detector
 
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-backend-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-frontend-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![TFG](https://img.shields.io/badge/TFG-Phishing%20Detector-6B46C1)](https://github.com/JuanJavier03/phishing-detector-TFG)
+
 Aplicación web para analizar correos electrónicos en formato `.eml`. El sistema permite subir correos individuales o lotes, ejecutar subcriterios técnicos de análisis, consultar evidencias, revisar puntuaciones MCDM/TOPSIS y exportar resultados.
+
+> Proyecto desarrollado como Trabajo de Fin de Grado para el análisis técnico de correos electrónicos y la evaluación de riesgo mediante subcriterios y puntuación MCDM/TOPSIS.
+
+## Índice
+
+- [Arquitectura](#-arquitectura)
+- [Requisitos](#-requisitos)
+- [Obtención del código](#-obtención-del-código)
+- [Configuración](#-configuración)
+- [Base de datos](#-base-de-datos)
+- [Arranque del backend](#-arranque-del-backend)
+- [Arranque del frontend](#-arranque-del-frontend)
+- [URLs locales](#-urls-locales)
+- [Uso](#-uso)
+- [Estructura](#-estructura)
+- [Verificación rápida](#-verificación-rápida)
+
+## Arquitectura
 
 La aplicación se compone de dos procesos:
 
-- `backend`: API FastAPI, parser de correos, enriquecimiento de subcriterios, cálculo MCDM y persistencia en PostgreSQL.
-- `frontend`: interfaz Next.js para subir correos, seguir jobs, consultar resultados, operar sobre lotes y revisar gráficas.
+| Proceso | Tecnología | Responsabilidad |
+| --- | --- | --- |
+| `backend` | FastAPI | API, parser de correos, enriquecimiento de subcriterios, cálculo MCDM y persistencia en PostgreSQL. |
+| `frontend` | Next.js | Interfaz para subir correos, seguir jobs, consultar resultados, operar sobre lotes y revisar gráficas. |
 
-## Requisitos
+##  Requisitos
 
 Antes de instalar el proyecto es necesario disponer de:
 
-- Python 3.12.
-- Node.js 20 o superior, con `npm`.
-- PostgreSQL 16.
-- Credenciales de Neutrino API para los subcriterios externos: `NEUTRINO_USER_ID` y `NEUTRINO_API_KEY`.
+| Herramienta | Versión / detalle |
+| --- | --- |
+| Python | 3.12 |
+| Node.js | 20 o superior, con `npm` |
+| PostgreSQL | 16 |
+| Git | Disponible desde terminal |
+| Neutrino API | Credenciales `NEUTRINO_USER_ID` y `NEUTRINO_API_KEY` para los subcriterios externos |
 
 Comprueba las versiones desde una terminal:
 
@@ -23,38 +52,61 @@ python --version
 node --version
 npm --version
 psql --version
+git --version
 ```
 
 En Windows, Python puede estar disponible como `py -3.12` en vez de `python`.
 
+## Obtención del código
+
+Clona el repositorio y entra en la carpeta del proyecto:
+
+```bash
+git clone https://github.com/JuanJavier03/phishing-detector-TFG.git
+cd phishing-detector-TFG
+```
+
 ## Configuración
 
-Desde la raíz del repositorio, copia los ficheros de entorno:
+Desde la raíz del repositorio, copia los ficheros de entorno.
 
-Windows PowerShell:
+### Windows PowerShell
 
 ```powershell
 Copy-Item backend\.env.example backend\.env
 Copy-Item frontend\.env.example frontend\.env
 ```
 
-Linux/macOS:
+### Linux/macOS
 
 ```bash
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 ```
 
+### Variables del backend
+
 En `backend/.env` configura:
 
-- `DATABASE_URL`: conexión a PostgreSQL.
-- `NEUTRINO_USER_ID` y `NEUTRINO_API_KEY`: credenciales para los subcriterios externos.
-- `MAX_UPLOAD_FILE_BYTES`, `MAX_BATCH_FILES` y `MAX_BATCH_TOTAL_BYTES`: límites de subida.
-- `API_HOST`, `API_PORT` y `API_RELOAD`: configuración de arranque de la API.
+| Variable | Descripción |
+| --- | --- |
+| `DATABASE_URL` | Conexión a PostgreSQL. |
+| `NEUTRINO_USER_ID` | Credencial de usuario para los subcriterios externos. |
+| `NEUTRINO_API_KEY` | Clave de API para los subcriterios externos. |
+| `MAX_UPLOAD_FILE_BYTES` | Límite de tamaño por archivo subido. |
+| `MAX_BATCH_FILES` | Límite de archivos por lote. |
+| `MAX_BATCH_TOTAL_BYTES` | Límite de tamaño total por lote. |
+| `API_HOST` | Host de arranque de la API. |
+| `API_PORT` | Puerto de arranque de la API. |
+| `API_RELOAD` | Configuración de recarga de la API. |
+
+### Variables del frontend
 
 En `frontend/.env` configura:
 
-- `NEXT_PUBLIC_API_BASE_URL`: URL del backend. En local debe ser `http://127.0.0.1:8000`.
+| Variable | Descripción |
+| --- | --- |
+| `NEXT_PUBLIC_API_BASE_URL` | URL del backend. En local debe ser `http://127.0.0.1:8000`. |
 
 ## Base de datos
 
@@ -115,6 +167,8 @@ CREATE DATABASE phishing_detector OWNER app_user;
 
 ## Arranque del backend
 
+El comando `python -m alembic upgrade head` aplica la migración inicial final y deja preparada la base de datos.
+
 ### Windows PowerShell
 
 ```powershell
@@ -146,9 +200,7 @@ python -m alembic upgrade head
 python scripts/run_api.py
 ```
 
-El comando `python -m alembic upgrade head` aplica la migración inicial final y deja preparada la base de datos.
-
-## Arranque del frontend
+## 🖥️ Arranque del frontend
 
 En otra terminal:
 
@@ -160,9 +212,11 @@ npm run dev
 
 ## URLs locales
 
-- Frontend: `http://127.0.0.1:3000`
-- API: `http://127.0.0.1:8000`
-- Health check: `http://127.0.0.1:8000/health`
+| Servicio | URL |
+| --- | --- |
+| Frontend | `http://127.0.0.1:3000` |
+| API | `http://127.0.0.1:8000` |
+| Health check | `http://127.0.0.1:8000/health` |
 
 ## Uso
 
@@ -176,18 +230,22 @@ npm run dev
 
 ## Estructura
 
-- `backend/api/`: API, routers, servicios, modelos y conexión a base de datos.
-- `backend/scripts/parse_emails.py`: parseo y normalización de correos `.eml`.
-- `backend/scripts/enrichment/`: subcriterios, transformación numérica y cálculo MCDM/TOPSIS.
-- `backend/scripts/utils/`: utilidades compartidas de dominios, URLs, cabeceras, caché y normalización.
-- `backend/alembic/versions/0001_initial_schema.py`: migración inicial con el esquema final.
-- `frontend/src/app/`: rutas de la interfaz.
-- `frontend/src/components/`: pantallas y componentes reutilizables.
-- `frontend/src/lib/`: cliente API, tipos, formateo y polling.
+| Ruta | Descripción |
+| --- | --- |
+| `backend/api/` | API, routers, servicios, modelos y conexión a base de datos. |
+| `backend/scripts/parse_emails.py` | Parseo y normalización de correos `.eml`. |
+| `backend/scripts/enrichment/` | Subcriterios, transformación numérica y cálculo MCDM/TOPSIS. |
+| `backend/scripts/utils/` | Utilidades compartidas de dominios, URLs, cabeceras, caché y normalización. |
+| `backend/alembic/versions/20260318_0001_initial_schema.py` | Migración inicial con el esquema final. |
+| `frontend/src/app/` | Rutas de la interfaz. |
+| `frontend/src/components/` | Pantallas y componentes reutilizables. |
+| `frontend/src/lib/` | Cliente API, tipos, formateo y polling. |
 
 ## Verificación rápida
 
-- Si la API no arranca, revisa `backend/.env`, confirma que PostgreSQL está iniciado y ejecuta `python -m alembic upgrade head` desde `backend`.
-- Si la migración falla con error de conexión, comprueba que `DATABASE_URL` coincide con el usuario, contraseña, host, puerto y base de datos creados.
-- Si el frontend no conecta, revisa `frontend/.env` y confirma que el backend está disponible en `http://127.0.0.1:8000`.
-- Si faltan resultados externos, comprueba las credenciales de Neutrino y los flags `IPREP_ALLOW_HTTP`, `DOMAINREP_ALLOW_HTTP`, `DOMAINIP_ALLOW_HTTP`, `DOMAINAGE_ALLOW_HTTP` y `CAPTCHA_ALLOW_HTTP`.
+| Problema | Revisión |
+| --- | --- |
+| La API no arranca | Revisa `backend/.env`, confirma que PostgreSQL está iniciado y ejecuta `python -m alembic upgrade head` desde `backend`. |
+| La migración falla con error de conexión | Comprueba que `DATABASE_URL` coincide con el usuario, contraseña, host, puerto y base de datos creados. |
+| El frontend no conecta | Revisa `frontend/.env` y confirma que el backend está disponible en `http://127.0.0.1:8000`. |
+| Faltan resultados externos | Comprueba las credenciales de Neutrino y los flags `IPREP_ALLOW_HTTP`, `DOMAINREP_ALLOW_HTTP`, `DOMAINIP_ALLOW_HTTP`, `DOMAINAGE_ALLOW_HTTP` y `CAPTCHA_ALLOW_HTTP`. |

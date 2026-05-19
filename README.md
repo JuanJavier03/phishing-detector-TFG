@@ -1,4 +1,8 @@
-# Phishing Detector
+# PHISHING DETECTOR
+
+## Detector de Phishing en Correos Electrónicos
+
+Trabajo de Fin de Grado desarrollado en la Universidad de Sevilla, Escuela Técnica Superior de Ingeniería Informática, Departamento de Lenguajes y Sistemas Informáticos.
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-backend-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
@@ -12,17 +16,17 @@ Aplicación web para analizar correos electrónicos en formato `.eml`. El sistem
 
 ## Índice
 
-- [Arquitectura](#-arquitectura)
-- [Requisitos](#-requisitos)
-- [Obtención del código](#-obtención-del-código)
-- [Configuración](#-configuración)
-- [Base de datos](#-base-de-datos)
-- [Arranque del backend](#-arranque-del-backend)
-- [Arranque del frontend](#-arranque-del-frontend)
-- [URLs locales](#-urls-locales)
-- [Uso](#-uso)
-- [Estructura](#-estructura)
-- [Verificación rápida](#-verificación-rápida)
+- [Arquitectura](#arquitectura)
+- [Requisitos](#requisitos)
+- [Obtención del código](#obtención-del-código)
+- [Configuración](#configuración)
+- [Base de datos](#base-de-datos)
+- [Arranque del backend](#arranque-del-backend)
+- [Arranque del frontend](#arranque-del-frontend)
+- [URLs locales](#urls-locales)
+- [Uso](#uso)
+- [Estructura](#estructura)
+- [Verificación rápida](#verificación-rápida)
 
 ## Arquitectura
 
@@ -33,7 +37,7 @@ La aplicación se compone de dos procesos:
 | `backend` | FastAPI | API, parser de correos, enriquecimiento de subcriterios, cálculo MCDM y persistencia en PostgreSQL. |
 | `frontend` | Next.js | Interfaz para subir correos, seguir jobs, consultar resultados, operar sobre lotes y revisar gráficas. |
 
-##  Requisitos
+## Requisitos
 
 Antes de instalar el proyecto es necesario disponer de:
 
@@ -200,7 +204,7 @@ python -m alembic upgrade head
 python scripts/run_api.py
 ```
 
-## 🖥️ Arranque del frontend
+## Arranque del frontend
 
 En otra terminal:
 
